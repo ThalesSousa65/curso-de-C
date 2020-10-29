@@ -20,6 +20,10 @@ void impremeEncadeada(pessoa *ponteiroEncadeado);
 void adcComecoEncadeado(pessoa *&ponteiroEncadeado, string nome, int rg);
 void adcFimEncadeado(pessoa *&ponteiroEncadeado, string nome, int rg);
 void adcPosicaoEncadeado(pessoa *&ponteiroEncadeado, string nome, int rg, int posicao);
+void adcPosicaoEncadeado(pessoa *&ponteiroEncadeado, string nome, int rg, int posicao);
+void removeInicioEncadeado(pessoa *&ponteiroEncadeado);
+void removeFimEncadeado(pessoa *&ponteiroEncadeado);
+void removePosicaoEncadeado(pessoa *&ponteiroEncadeado, int posicao);
 
 int main()
 {
@@ -54,8 +58,6 @@ int main()
         {
             impremeEncadeada(ponteiroEncadeado);
         }
-
-        impremeEncadeada(ponteiroEncadeado);
 
         cin >> funcaoDesejada;
 
@@ -130,6 +132,47 @@ int main()
             }
 
             break;
+
+        case 4:
+            cout << "\n\nFuncao escolhida: 4 - Retirar um node do inicio da lista \n\n";
+
+            removeInicioEncadeado(ponteiroEncadeado);
+
+            break;
+
+        case 5:
+            cout << "\n\nFuncao escolhida:  5 - Retirar um node do fim da lista \n\n";
+
+            if (retornaTamanho(ponteiroEncadeado) == 1)
+            {
+                removeInicioEncadeado(ponteiroEncadeado);
+            }
+            else
+            {
+                removeFimEncadeado(ponteiroEncadeado);
+            }
+
+            break;
+
+        case 6:
+            cout << "\n\nFuncao escolhida: 6 - Retirar um node na posicao N\n\n";
+
+            cout << "Digite o posicao: ";
+            cin >> posicao;
+
+            if (posicao == 0)
+            {
+
+                removeInicioEncadeado(ponteiroEncadeado);
+            }
+            else if (posicao == retornaTamanho(ponteiroEncadeado) - 1)
+            {
+                removeFimEncadeado(ponteiroEncadeado);
+            }
+            else
+            {
+                removePosicaoEncadeado(ponteiroEncadeado, posicao);
+            }
         }
     }
 }
@@ -182,6 +225,7 @@ void adcComecoEncadeado(pessoa *&ponteiroEncadeado, string nome, int rg)
 
     novoValor->nome = nome;
     novoValor->rg = rg;
+    novoValor->proximo = ponteiroEncadeado;
 
     if (ponteiroEncadeado->nome == "")
     {
@@ -228,8 +272,7 @@ void adcPosicaoEncadeado(pessoa *&ponteiroEncadeado, string nome, int rg, int po
     pessoa *p = ponteiroEncadeado;
 
     int cont = 0;
-
-    while (cont < -posicao)
+    while (cont <= posicao)
     {
 
         if (cont == posicao - 1)
@@ -237,8 +280,73 @@ void adcPosicaoEncadeado(pessoa *&ponteiroEncadeado, string nome, int rg, int po
             pessoa *aux = new pessoa;
 
             aux->proximo = p->proximo;
+
             p->proximo = novoValor;
+
             novoValor->proximo = aux->proximo;
+
+            free(aux);
+        }
+
+        p = p->proximo;
+
+        cont++;
+    }
+}
+
+void removeInicioEncadeado(pessoa *&ponteiroEncadeado)
+{
+
+    if (ponteiroEncadeado->proximo == NULL)
+    {
+        pessoa *novoValor = new pessoa;
+
+        novoValor->nome = "";
+        novoValor->rg = 0;
+        novoValor->proximo = NULL;
+
+        ponteiroEncadeado = novoValor;
+    }
+    else
+    {
+
+        ponteiroEncadeado = ponteiroEncadeado->proximo;
+    }
+}
+
+void removeFimEncadeado(pessoa *&ponteiroEncadeado)
+{
+    pessoa *p = new pessoa;
+    pessoa *aux = new pessoa;
+
+    p = ponteiroEncadeado;
+
+    while (p->proximo != NULL)
+    {
+
+        aux = p;
+        p = p->proximo;
+    }
+
+    aux->proximo = NULL;
+}
+
+void removePosicaoEncadeado(pessoa *&ponteiroEncadeado, int posicao)
+{
+
+    pessoa *p = ponteiroEncadeado;
+
+    int cont = 0;
+    while (cont <= posicao)
+    {
+
+        if (cont == posicao - 1)
+        {
+
+            pessoa *aux = new pessoa;
+
+            aux = p->proximo;
+            p->proximo = aux->proximo;
 
             free(aux);
         }
