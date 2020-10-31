@@ -12,6 +12,25 @@ struct pessoa
     struct pessoa *proximo;
 };
 
+string retornaNomeEncadeada(pessoa *&ponteiroEncadeado, int rg) {
+
+    string nome = "Nao encontrado";
+
+    pessoa *p = ponteiroEncadeado;
+
+    while (p != NULL)
+    {
+        if(p->rg == rg){
+            nome = p->nome;
+
+            return nome;
+        }
+        
+        p = p->proximo;
+    }
+    return nome;
+}
+
 void limpaTela();
 
 int retornaTamanho(pessoa *ponteiroEncadeado);
@@ -35,7 +54,7 @@ int main()
     ponteiroEncadeado->rg = 0;
     ponteiroEncadeado->proximo = NULL;
 
-    while (funcaoDesejada < 9 && funcaoDesejada > 0)
+    while (funcaoDesejada < 8 && funcaoDesejada > 0)
     {
         cout << " Operacoes \n \n";
         cout << " 1 - insercao de um node no inicio da lista\n";
@@ -45,8 +64,7 @@ int main()
         cout << " 5 - Retirar um node do fim da lista \n";
         cout << " 6 - Retirar um node na posicao N \n";
         cout << " 7 - Procurar um node com o campo RG \n";
-        cout << " 8 - Imprimir a lista. \n";
-        cout << " 9 - Sair do sistema. \n";
+        cout << " 8 - Sair do sistema. \n";
         cout << "\n Escolha um numero e pressione ENTER: \n";
         cout << "\n\n Tamanho atual:" << retornaTamanho(ponteiroEncadeado) << "\n \n";
 
@@ -173,6 +191,16 @@ int main()
             {
                 removePosicaoEncadeado(ponteiroEncadeado, posicao);
             }
+
+        case 7:
+            cout << "\n\nFuncao escolhida: 7 - Procurar um node com o campo RG\n\n ";
+
+            cout << "Digite o RG: ";
+            cin >> rg;
+
+            cout << "\n O nome do rg " << rg << " eh: " << retornaNomeEncadeada(ponteiroEncadeado, rg) <<  "\n";
+
+            break;
         }
     }
 }
@@ -356,3 +384,4 @@ void removePosicaoEncadeado(pessoa *&ponteiroEncadeado, int posicao)
         cont++;
     }
 }
+
