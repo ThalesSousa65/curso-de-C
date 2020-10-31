@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 void LimpaTela();
+void jogarSozinho();
 void menuInicial();
 
 int main()
 {
+  srand((unsigned)time(NULL));
   menuInicial();
 
   return 0;
@@ -14,6 +17,16 @@ int main()
 void limpaTela()
 {
   system("CLS");
+}
+
+void jogarSozinho()
+{
+
+  char palavras[3] = {"Abacaxi", "Morango", "Manga"};
+
+  int indiceAleatorio = rand();
+
+  printf("%d", indiceAleatorio);
 }
 
 void menuInicial()
@@ -31,6 +44,7 @@ void menuInicial()
     switch (opcao)
     {
     case 1:
+      jogarSozinho();
 
       break;
 
